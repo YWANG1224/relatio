@@ -12,6 +12,7 @@ from tqdm import tqdm
 from relatio.supported_models import LANGUAGE_MODELS
 from relatio.utils import (
     extract_svos_fr,
+    extract_svos_zh,
     from_svos_to_srl_res,
     make_list_from_key,
     save_entities,
@@ -136,6 +137,12 @@ class Preprocessor:
                 svos = extract_svos_fr(sent)
                 sentence_index.extend([i] * len(svos))
                 all_svos.extend(svos)
+
+        if self.language == "chinese":
+            for i, sent in enumerate(spacy_docs):
+                svos = extract_svos_zh(sent)
+                sentence_index.extend([i] * len(svos))
+                all_svos.extend(svos) #add conditions for chinese
 
         all_svos = from_svos_to_srl_res(all_svos)
 
